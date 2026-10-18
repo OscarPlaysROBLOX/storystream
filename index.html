@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>StoryStream: free audiobooks from LibriVox</title>
+  <meta name="description" content="StoryStream is a free audiobook player for thousands of public-domain audiobooks recorded by LibriVox volunteers. Works on iPhone, iPad and Windows.">
+  <meta name="theme-color" content="#6c5ce7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="StoryStream">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="icons/favicon-32.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="#/"><img src="icons/icon-192.png" alt="" width="36" height="36"><span>Story<b>Stream</b></span></a>
+    <form id="searchForm" class="search" role="search">
+      <input id="q" type="search" placeholder="Search books or authors…" autocomplete="off" enterkeyhint="search" aria-label="Search books or authors">
+      <button type="submit" aria-label="Search">🔍</button>
+    </form>
+    <nav class="tabs">
+      <a href="#/" data-tab="home">🏠 <span>Home</span></a>
+      <a href="#/library" data-tab="library">📚 <span>My Library</span></a>
+    </nav>
+  </header>
+
+  <main id="view" tabindex="-1"></main>
+
+  <footer class="credits">
+    <p>🎧 All recordings are by the amazing volunteers at <a href="https://librivox.org" target="_blank" rel="noopener">LibriVox</a>, and the files are hosted by the <a href="https://archive.org/details/librivoxaudio" target="_blank" rel="noopener">Internet Archive</a>.
+    Every book here is in the <b>public domain</b>, so it's free and legal to listen to.</p>
+    <p class="small">StoryStream has no ads, no trackers and no accounts. Your listening spots are saved only on this device. Made by Galaxy.</p>
+  </footer>
+
+  <!-- Mini player -->
+  <div id="mini" class="mini hidden" role="region" aria-label="Now playing">
+    <button class="mini-open" id="miniOpen" aria-label="Open player">
+      <img id="miniCover" alt="">
+      <span class="mini-text"><b id="miniTitle"></b><small id="miniChap"></small></span>
+    </button>
+    <button class="round" id="miniBack" aria-label="Back 15 seconds">↺<small>15</small></button>
+    <button class="round big" id="miniPlay" aria-label="Play">▶</button>
+    <button class="round" id="miniFwd" aria-label="Forward 30 seconds">↻<small>30</small></button>
+    <div class="mini-bar"><i id="miniProg"></i></div>
+  </div>
+
+  <!-- Full player -->
+  <div id="player" class="player hidden" role="dialog" aria-label="Player" aria-modal="true">
+    <div class="player-inner">
+      <button class="close" id="playerClose" aria-label="Close player">⌄</button>
+      <img id="pCover" class="p-cover" alt="">
+      <h2 id="pTitle"></h2>
+      <p id="pAuthor" class="muted"></p>
+      <p id="pChap" class="p-chap"></p>
+      <input id="seek" type="range" min="0" max="1000" value="0" step="1" aria-label="Position in chapter">
+      <div class="times"><span id="tCur">0:00</span><span id="tDur">0:00</span></div>
+      <div class="controls">
+        <button class="round" id="prevChap" aria-label="Previous chapter">⏮</button>
+        <button class="round" id="back15" aria-label="Back 15 seconds">↺<small>15</small></button>
+        <button class="round huge" id="playBtn" aria-label="Play">▶</button>
+        <button class="round" id="fwd30" aria-label="Forward 30 seconds">↻<small>30</small></button>
+        <button class="round" id="nextChap" aria-label="Next chapter">⏭</button>
+      </div>
+      <div class="extras">
+        <label class="pill">⚡ Speed
+          <select id="speed" aria-label="Playback speed">
+            <option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option>
+            <option value="1.5">1.5×</option><option value="1.75">1.75×</option><option value="2">2×</option>
+          </select>
+        </label>
+        <label class="pill">🌙 Sleep
+          <select id="sleep" aria-label="Sleep timer">
+            <option value="0">Off</option><option value="5">5 min</option><option value="15">15 min</option>
+            <option value="30">30 min</option><option value="45">45 min</option><option value="60">1 hour</option><option value="chap">End of chapter</option>
+          </select>
+        </label>
+        <span id="sleepLeft" class="pill hidden"></span>
+      </div>
+      <button class="link" id="pBook">📖 See all chapters</button>
+      <p id="pErr" class="err hidden"></p>
+    </div>
+  </div>
+
+  <audio id="audio" preload="metadata"></audio>
+  <script src="app.js"></script>
+</body>
+</html>
